@@ -1,0 +1,207 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-toast/paper-toast.html">
+
+<dom-module id="noe-ricoy">
+  <template>
+
+    <style>
+      :host {
+        display: block;
+      }
+
+      #animated {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 50px;
+      }
+
+      #animated span.letter{
+        display:inline-block;
+        animation: 1s wave backwards ease-in-out infinite;
+      }
+
+      @keyframes wave {
+        0%{
+          transform: translateY(0em);
+        }
+        50%{
+          transform: translateY(-1em);
+        }
+      }
+
+      @keyframes flip {
+        0%{
+          transform: rotateX(0deg);
+        }
+        50%{
+          transform: rotateX(90deg);
+        }
+        100%{
+          transform: rotateX(0deg);
+        }
+      }
+
+      @keyframes pop {
+        0%{
+          transform: rotateZ(5deg) scale(0.75) translateY(0);
+          opacity:0.1;
+        }
+        50%{
+          transform: rotateZ(-5deg) scale(1) translateY(-0.5em);
+          opacity:1;
+        }
+        100%{
+          transform: rotateZ(5deg) scale(0.75) translateY(0);
+          opacity:0.1;
+        }
+      }
+
+      @keyframes tilted {
+        0%{
+          transform: rotateZ(-15deg);
+        }
+        50%{
+          transform: rotateZ(15deg);
+        }
+        100%{
+          transform: rotateZ(-15deg);
+        }
+      }
+
+      @keyframes shine {
+        75%{
+          color: inherit;
+        }
+        100%{
+          color: #fff;
+        }
+      }
+
+      @keyframes crazy {
+        0%{
+          transform: translateY(0) rotateX(90deg);
+        }
+        50%{
+          transform: translateY(-1em) rotateX(0deg);
+        }
+        100%{
+          transform: translateY(0) rotateX(-90deg);
+        }
+      }
+
+      @keyframes newone {
+        0%{
+          font-size: 3rem;
+        }
+        50%{
+          font-size: 3.5rem;
+        }
+        100%{
+          font-size: 3rem;
+        }
+      }
+      
+    </style>
+
+    <span on-click="openToast" id="animated">[[ text ]]</span>
+
+    <paper-toast id="toast">
+      <paper-spinner active>...</paper-spinner> [[ message ]]
+    </paper-toast>
+
+  </template>
+
+  <script>
+    /**
+     * `noe-ricoy`
+     * Text Animation
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class NoeRicoy extends Polymer.Element {
+      static get is() { return 'noe-ricoy'; }
+
+      static get properties() {
+        return {
+          paint: {
+            type: Boolean,
+            value: false
+          },
+          start: {
+            type: Boolean,
+            value: false
+          },
+          message: {
+            type: String,
+            value: "Activate animation"
+          },
+          text: {
+            type: String,
+            value: 'Noé Ricoy'
+          }
+        };
+      }
+
+      connectedCallback() {
+        super.connectedCallback();
+        this.paint = true;
+      }
+
+      attributeChangedCallback(text, lastValue, newValue) {
+        super.attributeChangedCallback();
+        this.text = newValue;
+        
+        if(this.paint && this.text != null) this.changeText()
+      }
+
+      openToast() {
+        this.$.toast.open();
+        this.animationText();
+        this.start = true;
+      }
+
+      changeText() {
+        if(this.start) {
+          let animated = this.$.animated;
+
+          while (animated.firstChild) {
+            animated.removeChild(animated.firstChild);
+          }
+
+          animated.innerHTML = this.text;
+
+          this.start = false;
+          this.message = "Changed text"
+          this.openToast();
+        }
+      }
+
+
+      animationText() {
+        if(this.start) return;
+
+        var animateText = this.$.animated;
+        var textArray = animateText.innerText.split("");
+
+        animateText.firstChild.remove();
+
+        var elArray = textArray.map(
+          (letter,index)=>{
+            if(letter==" ") letter = '&nbsp;';
+            var el = document.createElement("span");
+            el.className = "letter";
+            el.innerHTML = letter;
+            el.style.animationDelay = index/(textArray.length)+"s";
+            animateText.appendChild(el);
+            return el;
+          }
+        );  
+
+        animateText.innerHtml = elArray;
+      }
+    }
+
+    window.customElements.define(NoeRicoy.is, NoeRicoy);
+  </script>
+</dom-module>

@@ -1,0 +1,36 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="noe-ricoy">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+  </template>
+
+  <script>
+    /**
+     * `noe-ricoy`
+     * Text Animation
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class NoeRicoy extends Polymer.Element {
+      static get is() { return 'noe-ricoy'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'noe-ricoy'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(NoeRicoy.is, NoeRicoy);
+  </script>
+</dom-module>
