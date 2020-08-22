@@ -11,7 +11,7 @@
 
       #animated {
         font-family: Arial, Helvetica, sans-serif;
-        font-size: 30px;
+        font-size: 50px;
       }
 
       #animated span.letter{
@@ -102,7 +102,7 @@
       
     </style>
 
-    <span on-click="openToast" id="animated">[[ text ]]</span>
+    <span on-click="openToast" id="animated">{{ text }}</span>
 
     <paper-toast id="toast">
       <paper-spinner active>...</paper-spinner> [[ message ]]
@@ -138,7 +138,9 @@
           },
           text: {
             type: String,
-            value: 'Noé Ricoy'
+            value: 'Default',
+            notify: true,
+            observer: 'changeText'
           }
         };
       }
