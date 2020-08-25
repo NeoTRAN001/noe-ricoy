@@ -12,6 +12,10 @@
       #animated {
         font-family: Arial, Helvetica, sans-serif;
         font-size: 50px;
+        color: black;
+        background-color: white;
+
+        @apply --noe-ricoy-text-style;
       }
 
       #animated span.letter{
@@ -22,9 +26,11 @@
       @keyframes wave {
         0%{
           transform: translateY(0em);
+          @apply --noe-ricoy-text-translate-X;
         }
         50%{
           transform: translateY(-1em);
+          @apply --noe-ricoy-text-translate-Y;
         }
       }
 
